@@ -29,7 +29,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-background border-t border-border/30">
+    <footer className="bg-background border-t border/30">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-10">
           {/* Brand Column */}
@@ -124,9 +124,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-border/30">
+        <div className="pt-8 border-t border/30">
           <p className="text-xs text-white/50 text-center">
-            © 2024 SpeedShop Inc. All rights reserved.
+            © 2026 TurboShop Inc. All rights reserved.
           </p>
         </div>
       </div>

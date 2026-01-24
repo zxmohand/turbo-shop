@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 
 export default function Header() {
   return (
-    <header className="border-b border-border/50 bg-background">
+    <header className="border-b border/50 bg-background shadow-2xl">
       <div className="container mx-auto px-6 py-3">
         <div className="flex items-center justify-between gap-8">
           {/* Logo */}
@@ -20,10 +20,10 @@ export default function Header() {
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             <Link
-              href="/"
+              href="/best-offers"
               className="text-sm text-white/80 hover:text-white transition-colors"
             >
-              Shop
+              Best Offers
             </Link>
             <Link
               href="/category"
