@@ -10,7 +10,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-primary rounded-sm"></div>
-            <span className="text-lg font-bold text-white">SpeedShop</span>
+            <span className="text-lg font-bold text-white">TurboShop</span>
           </div>
 
           {/* Navigation */}
