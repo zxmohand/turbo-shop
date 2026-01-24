@@ -72,13 +72,13 @@
   --secondary-foreground: #ffffff;
   --muted: #3a1818;
   --muted-foreground: #9a8080;
-  
+
   --accent-foreground: #ffffff;
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
 
   --input: rgba(255, 255, 255, 0.1);
- 
+
   --font-weight-medium: 500;
   --font-weight-normal: 400;
   --chart-1: oklch(0.488 0.243 264.376);
@@ -195,5 +195,18 @@
     font-size: var(--text-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
+  }
+}
+
+@layer utilities {
+  /* Custom shimmer animation for hover effects */
+  @keyframes shimmer {
+    0%,
+    100% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(100%);
+    }
   }
 }

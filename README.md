@@ -56,6 +56,8 @@ A modern, high-performance e-commerce platform built with Next.js 16 and React 1
 ## 📁 Project Structure
 
 ```
+<!-- add cart and product folders -->
+
 turbo-shop/
 ├── app/                      # Next.js App Router
 │   ├── (shop)/              # Shop route group
@@ -68,6 +70,8 @@ turbo-shop/
 │   │   │   ├── Newsletter.tsx
 │   │   │   ├── Header.tsx
 │   │   │   └── Footer.tsx
+│   │   ├── cart/            # Cart page
+│   │   ├── product/         # Product details
 │   │   ├── layout.tsx
 │   │   └── page.tsx
 │   ├── (checkout)/          # Checkout route group
