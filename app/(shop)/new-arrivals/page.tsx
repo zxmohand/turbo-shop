@@ -6,7 +6,6 @@ import {
   ArrowRight,
   Plus,
   Sparkles,
-  SlidersHorizontal,
   ChevronDown,
 } from "lucide-react";
 

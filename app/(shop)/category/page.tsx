@@ -1,20 +1,17 @@
-"use client";
-
-import React, { useState } from "react";
-import BackgroundEffects from "./_components/BackgroundEffects";
-import CategoryHeader from "./_components/CategoryHeader";
-import CategoryGrid from "./_components/CategoryGrid";
-import CategoryNavigation from "./_components/CategoryNavigation";
-import SearchAndFilters from "./_components/SearchAndFilters";
-import QuickFilters from "./_components/QuickFilters";
 import { CATEGORY_LIST } from "@/lib/data/categories";
-import { Category } from "./_components/CategoryCard";
+import CategoryGrid from "./_components/CategoryGrid";
 
-const CategoriesPage = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [searchQuery, setSearchQuery] = useState("");
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  image: string;
+  items: number;
+  trending: boolean;
+}
 
-  // Map shared data to the shape CategoryCard expects
+export default function CategoryPage() {
   const allCategories: Category[] = CATEGORY_LIST.map((cat) => ({
     id: cat.id,
     name: cat.name,
@@ -25,65 +22,16 @@ const CategoriesPage = () => {
     trending: cat.trending,
   }));
 
-  // Dynamically filter categories based on search
-  const filteredCategories = allCategories.filter(
-    (cat) =>
-      cat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      cat.description.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-
-  const itemsPerPage = 4;
-  const totalPages = Math.ceil(filteredCategories.length / itemsPerPage);
-
-  // Reset to first page if search changes and current page is out of bounds
-  const safePage = currentPage >= totalPages ? 0 : currentPage;
-
-  const visibleCategories = filteredCategories.slice(
-    safePage * itemsPerPage,
-    (safePage + 1) * itemsPerPage,
-  );
-
-  const totalProducts = filteredCategories.reduce(
-    (acc, cat) => acc + cat.items,
-    0,
-  );
-
   return (
-    <section className="relative min-h-screen bg-background py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <BackgroundEffects />
-
-      <div className="relative max-w-7xl mx-auto">
-        <CategoryHeader
-          totalCategories={filteredCategories.length}
-          totalProducts={totalProducts}
-        />
-
-        <CategoryGrid categories={visibleCategories} />
-
-        {totalPages > 1 && (
-          <CategoryNavigation
-            currentPage={safePage}
-            totalPages={totalPages}
-            onPrevPage={() =>
-              setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages)
-            }
-            onNextPage={() => setCurrentPage((prev) => (prev + 1) % totalPages)}
-            onPageSelect={setCurrentPage}
-          />
-        )}
-
-        <SearchAndFilters
-          searchQuery={searchQuery}
-          onSearchChange={(q) => {
-            setSearchQuery(q);
-            setCurrentPage(0); // Reset page when searching
-          }}
-        />
-
-        <QuickFilters />
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-6 py-12">
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold text-white mb-2">Departments</h1>
+          <p className="text-muted-foreground">Explore our complete range of specialized shopping departments.</p>
+        </div>
+        
+        <CategoryGrid categories={allCategories} />
       </div>
-    </section>
+    </div>
   );
-};
-
-export default CategoriesPage;
+}
