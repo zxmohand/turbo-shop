@@ -1,9 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, TrendingUp } from "lucide-react";
 
 export interface Category {
   id: number;
   name: string;
+  slug: string;
   description: string;
   image: string;
   items: number;
@@ -17,7 +19,10 @@ interface CategoryCardProps {
 
 export default function CategoryCard({ category, index }: CategoryCardProps) {
   return (
-    <div className="group relative overflow-hidden rounded-2xl h-[400px]">
+    <Link
+      href={`/products?category=${category.slug}`}
+      className="group relative overflow-hidden rounded-2xl h-[400px] block"
+    >
       <div className="relative h-full overflow-hidden bg-card rounded-2xl border border-border transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 cursor-pointer">
         {/* Image */}
         <div className="absolute inset-0">
@@ -82,6 +87,6 @@ export default function CategoryCard({ category, index }: CategoryCardProps) {
         <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-primary/0 group-hover:border-primary/50 rounded-tl-2xl transition-all duration-500"></div>
         <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-primary/0 group-hover:border-primary/50 rounded-br-2xl transition-all duration-500"></div>
       </div>
-    </div>
+    </Link>
   );
 }

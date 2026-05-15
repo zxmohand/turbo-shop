@@ -1,15 +1,17 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function Hero() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <section className="relative bg-gradient-to-br from-[#2a1515] via-[#2a1010] to-[#1a0808] overflow-hidden">
       <div className="container mx-auto px-6 py-16 lg:py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
           <div className="space-y-6">
             <div className="inline-block px-3 py-1.5 bg-secondary/50 rounded-full border border-primary/30">
               <span className="text-xs text-primary uppercase tracking-wider font-medium">
-                Latest Collection 2024
+                Latest Collection {currentYear}
               </span>
             </div>
             
@@ -24,19 +26,22 @@ export default function Hero() {
             </p>
             
             <div className="flex flex-wrap gap-3 pt-2">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-6 h-11 rounded-md">
-                Shop Now
-              </Button>
-              <Button 
-                size="lg" 
-                className="bg-[#3a1818] hover:bg-[#4a2020] text-white border-0 px-6 h-11 rounded-md"
-              >
-                View Specs
-              </Button>
+              <Link href="/products">
+                <Button size="lg" className="cursor-pointer bg-primary hover:bg-primary/90 text-white px-6 h-11 rounded-md">
+                  Shop Now
+                </Button>
+              </Link>
+              <Link href="/category">
+                <Button 
+                  size="lg" 
+                  className="cursor-pointer bg-[#3a1818] hover:bg-[#4a2020] text-white border-0 px-6 h-11 rounded-md"
+                >
+                  Browse Categories
+                </Button>
+              </Link>
             </div>
           </div>
 
-          {/* Right Content - Hero Image */}
           <div className="relative">
             <img
               src="https://images.unsplash.com/photo-1552318059-ebc93d7c1060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXB0b3AlMjBjb21wdXRlciUyMGRlc2slMjBvcmFuZ2V8ZW58MXx8fHwxNzY4NzM2NzIwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"

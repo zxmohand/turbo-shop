@@ -1,8 +1,10 @@
+import { ALL_PRODUCTS, CATEGORIES, DISCOUNTED_PRODUCTS } from "@/lib/data/products";
+
 export default function Stats() {
   const stats = [
-    { value: "<0.1s", label: "Load Time" },
-    { value: "99.9%", label: "Uptime" },
-    { value: "Global", label: "Serving" },
+    { value: `${ALL_PRODUCTS.length}+`, label: "Products" },
+    { value: `${CATEGORIES.length}`, label: "Categories" },
+    { value: `${DISCOUNTED_PRODUCTS.length}`, label: "Active Deals" },
   ];
 
   return (

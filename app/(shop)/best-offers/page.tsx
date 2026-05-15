@@ -1,30 +1,39 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import {
   ArrowRight,
   Plus,
   Zap,
   TrendingUp,
-  SlidersHorizontal,
   ChevronDown,
 } from "lucide-react";
+import {
+  DISCOUNTED_PRODUCTS,
+  CATEGORIES,
+  formatPrice,
+  getCategoryLabel,
+  Product,
+} from "@/lib/data/products";
+
+// ── Derive filter options from discounted products only ──
+const DEAL_CATEGORIES = CATEGORIES.filter((cat) =>
+  DISCOUNTED_PRODUCTS.some((p) => p.category === cat.slug),
+);
+
+const ALL_SIZES = Array.from(
+  new Set(DISCOUNTED_PRODUCTS.flatMap((p) => p.sizes ?? [])),
+).sort();
 
 const FlashSalePage = () => {
+  // ── Countdown timer ─────────────────────────
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 4,
     mins: 23,
     secs: 12,
   });
-
-  const [priceRange, setPriceRange] = useState([20, 150]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([
-    "Training Gear",
-  ]);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [sortBy, setSortBy] = useState("Best Selling");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -57,132 +66,86 @@ const FlashSalePage = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const topDeals = [
-    {
-      id: 1,
-      name: "Velocity Runner",
-      image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80",
-      price: "$54.00",
-      originalPrice: "$90.00",
-      discount: "-40%",
-    },
-    {
-      id: 2,
-      name: "Aero Gym Tee",
-      image:
-        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80",
-      price: "$24.50",
-      originalPrice: "$35.00",
-      discount: "-30%",
-    },
-    {
-      id: 3,
-      name: "Pro Shorts",
-      image:
-        "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=400&q=80",
-      price: "$19.99",
-      originalPrice: "$40.00",
-      discount: "-50%",
-    },
-  ];
+  // ── Filter state ────────────────────────────
+  const priceExtent = useMemo(() => {
+    const prices = DISCOUNTED_PRODUCTS.map((p) => p.price);
+    return {
+      min: Math.floor(Math.min(...prices)),
+      max: Math.ceil(Math.max(...prices)),
+    };
+  }, []);
 
-  const products = [
-    {
-      id: 1,
-      name: "Air Zoom Pegasus",
-      image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80",
-      price: "$89.99",
-      originalPrice: "$150.00",
-      badge: "FLASH",
-      badgeColor: "primary",
-    },
-    {
-      id: 2,
-      name: "Therma-Fit Hoodie",
-      image:
-        "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&q=80",
-      price: "$45.50",
-      originalPrice: "$65.00",
-      badge: "HOT",
-      badgeColor: "destructive",
-    },
-    {
-      id: 3,
-      name: "Dri-Fit Leggings",
-      image:
-        "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=600&q=80",
-      price: "$37.50",
-      originalPrice: "$50.00",
-      badge: "-25%",
-      badgeColor: "secondary",
-    },
-    {
-      id: 4,
-      name: "Sport Band 2.0",
-      image:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80",
-      price: "$15.00",
-      originalPrice: "$30.00",
-      badge: "FLASH",
-      badgeColor: "primary",
-    },
-    {
-      id: 5,
-      name: "Elite Jersey",
-      image:
-        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80",
-      price: "$55.00",
-      originalPrice: "$80.00",
-      badge: "FLASH",
-      badgeColor: "primary",
-    },
-    {
-      id: 6,
-      name: "Urban Duffel",
-      image:
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80",
-      price: "$38.25",
-      originalPrice: "$45.00",
-      badge: "-15%",
-      badgeColor: "secondary",
-    },
-    {
-      id: 7,
-      name: "Core Racerback",
-      image:
-        "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=600&q=80",
-      price: "$19.00",
-      originalPrice: "$32.00",
-      badge: "FLASH",
-      badgeColor: "primary",
-    },
-    {
-      id: 8,
-      name: "Hydro Flask Steel",
-      image:
-        "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600&q=80",
-      price: "$18.00",
-      originalPrice: "$45.00",
-      badge: "-60%",
-      badgeColor: "secondary",
-    },
-  ];
+  const [priceRange, setPriceRange] = useState([priceExtent.min, priceExtent.max]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState("Best Selling");
 
-  const categories = [
-    { name: "Training Gear", count: 120 },
-    { name: "Running Shoes", count: 45 },
-    { name: "Accessories", count: 32 },
-  ];
+  // ── Filtered discounted products ────────────
+  const filteredProducts = useMemo(() => {
+    let result = DISCOUNTED_PRODUCTS;
 
-  const sizes = ["S", "M", "L", "XL"];
+    // Category filter
+    if (selectedCategories.length > 0) {
+      result = result.filter((p) => selectedCategories.includes(p.category));
+    }
 
-  const toggleCategory = (category: string) => {
+    // Price range filter
+    result = result.filter(
+      (p) => p.price >= priceRange[0] && p.price <= priceRange[1],
+    );
+
+    // Size filter
+    if (selectedSizes.length > 0) {
+      result = result.filter((p) =>
+        p.sizes?.some((s) => selectedSizes.includes(s)),
+      );
+    }
+
+    // Sort
+    switch (sortBy) {
+      case "Price: Low to High":
+        result = [...result].sort((a, b) => a.price - b.price);
+        break;
+      case "Price: High to Low":
+        result = [...result].sort((a, b) => b.price - a.price);
+        break;
+      case "Newest":
+        result = [...result].sort((a, b) => b.id - a.id);
+        break;
+      default:
+        // Best Selling — keep original order
+        break;
+    }
+
+    return result;
+  }, [selectedCategories, priceRange, selectedSizes, sortBy]);
+
+  // ── Top 3 deals (always from full discounted pool) ──
+  const topDeals = useMemo(() => {
+    return [...DISCOUNTED_PRODUCTS]
+      .sort((a, b) => {
+        const discA = a.originalPrice ? (a.originalPrice - a.price) / a.originalPrice : 0;
+        const discB = b.originalPrice ? (b.originalPrice - b.price) / b.originalPrice : 0;
+        return discB - discA;
+      })
+      .slice(0, 3);
+  }, []);
+
+  // ── Category counts (from discounted pool) ──
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    DISCOUNTED_PRODUCTS.forEach((p) => {
+      counts[p.category] = (counts[p.category] ?? 0) + 1;
+    });
+    return counts;
+  }, []);
+
+  // ── Handlers ────────────────────────────────
+  const toggleCategory = (slug: string) => {
     setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category],
+      prev.includes(slug)
+        ? prev.filter((c) => c !== slug)
+        : [...prev, slug],
     );
   };
 
@@ -309,9 +272,11 @@ const FlashSalePage = () => {
                             fill
                             className="object-cover group-hover:scale-110 transition-transform duration-500"
                           />
-                          <div className="absolute top-1 left-1 bg-primary text-primary-foreground text-xs font-bold px-2 py-0.5 rounded-md">
-                            {deal.discount}
-                          </div>
+                          {deal.discount && (
+                            <div className="absolute top-1 left-1 bg-primary text-primary-foreground text-xs font-bold px-2 py-0.5 rounded-md">
+                              {deal.discount}
+                            </div>
+                          )}
                         </div>
 
                         <div className="flex-1 min-w-0">
@@ -320,11 +285,13 @@ const FlashSalePage = () => {
                           </h3>
                           <div className="flex items-baseline gap-2">
                             <span className="text-primary font-bold text-lg">
-                              {deal.price}
+                              {formatPrice(deal.price)}
                             </span>
-                            <span className="text-muted-foreground text-sm line-through">
-                              {deal.originalPrice}
-                            </span>
+                            {deal.originalPrice && (
+                              <span className="text-muted-foreground text-sm line-through">
+                                {formatPrice(deal.originalPrice)}
+                              </span>
+                            )}
                           </div>
                         </div>
 
@@ -358,7 +325,10 @@ const FlashSalePage = () => {
                     <h3 className="text-lg font-bold text-foreground">
                       PRICE RANGE
                     </h3>
-                    <button className="text-sm text-primary font-semibold hover:underline">
+                    <button
+                      onClick={() => setPriceRange([priceExtent.min, priceExtent.max])}
+                      className="text-sm text-primary font-semibold hover:underline"
+                    >
                       Reset
                     </button>
                   </div>
@@ -366,8 +336,8 @@ const FlashSalePage = () => {
                   <div className="space-y-4">
                     <input
                       type="range"
-                      min="20"
-                      max="150"
+                      min={priceExtent.min}
+                      max={priceExtent.max}
                       value={priceRange[1]}
                       onChange={(e) =>
                         setPriceRange([priceRange[0], parseInt(e.target.value)])
@@ -391,24 +361,24 @@ const FlashSalePage = () => {
                     CATEGORIES
                   </h3>
                   <div className="space-y-3">
-                    {categories.map((category) => (
+                    {DEAL_CATEGORIES.map((category) => (
                       <label
-                        key={category.name}
+                        key={category.slug}
                         className="flex items-center justify-between cursor-pointer group"
                       >
                         <div className="flex items-center gap-3">
                           <input
                             type="checkbox"
-                            checked={selectedCategories.includes(category.name)}
-                            onChange={() => toggleCategory(category.name)}
+                            checked={selectedCategories.includes(category.slug)}
+                            onChange={() => toggleCategory(category.slug)}
                             className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary/20 cursor-pointer"
                           />
                           <span className="text-foreground font-medium group-hover:text-primary transition-colors">
-                            {category.name}
+                            {category.label}
                           </span>
                         </div>
                         <span className="text-muted-foreground text-sm">
-                          ({category.count})
+                          ({categoryCounts[category.slug] ?? 0})
                         </span>
                       </label>
                     ))}
@@ -421,7 +391,7 @@ const FlashSalePage = () => {
                     SIZE
                   </h3>
                   <div className="grid grid-cols-4 gap-3">
-                    {sizes.map((size) => (
+                    {ALL_SIZES.map((size) => (
                       <button
                         key={size}
                         onClick={() => toggleSize(size)}
@@ -444,8 +414,15 @@ const FlashSalePage = () => {
               {/* Header */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
                 <div className="text-muted-foreground">
-                  Showing <span className="text-foreground font-bold">12</span>{" "}
-                  of <span className="text-foreground font-bold">45</span> deals
+                  Showing{" "}
+                  <span className="text-foreground font-bold">
+                    {filteredProducts.length}
+                  </span>{" "}
+                  of{" "}
+                  <span className="text-foreground font-bold">
+                    {DISCOUNTED_PRODUCTS.length}
+                  </span>{" "}
+                  deals
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -469,59 +446,87 @@ const FlashSalePage = () => {
               </div>
 
               {/* Products Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {products.map((product) => (
-                  <div
-                    key={product.id}
-                    className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 cursor-pointer"
+              {filteredProducts.length === 0 ? (
+                <div className="text-center py-20">
+                  <p className="text-2xl font-bold text-foreground mb-3">
+                    No deals match your filters
+                  </p>
+                  <p className="text-muted-foreground mb-6">
+                    Try adjusting your price range, categories, or sizes.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSelectedCategories([]);
+                      setSelectedSizes([]);
+                      setPriceRange([priceExtent.min, priceExtent.max]);
+                    }}
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-colors"
                   >
-                    {/* Product Image */}
-                    <div className="relative aspect-square bg-secondary overflow-hidden">
-                      <Image
-                        src={product.image || "/placeholder.svg"}
-                        alt={product.name}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
+                    Reset All Filters
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {filteredProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      className="group relative bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 cursor-pointer"
+                    >
+                      {/* Product Image */}
+                      <div className="relative aspect-square bg-secondary overflow-hidden">
+                        <Image
+                          src={product.image || "/placeholder.svg"}
+                          alt={product.name}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
 
-                      {/* Badge */}
-                      <div
-                        className={`absolute top-3 left-3 px-3 py-1.5 rounded-lg text-xs font-bold ${
-                          product.badgeColor === "primary"
-                            ? "bg-primary text-primary-foreground"
-                            : product.badgeColor === "destructive"
-                              ? "bg-destructive text-destructive-foreground"
-                              : "bg-secondary text-foreground"
-                        }`}
-                      >
-                        {product.badge}
+                        {/* Badge */}
+                        {product.badge && (
+                          <div
+                            className={`absolute top-3 left-3 px-3 py-1.5 rounded-lg text-xs font-bold ${
+                              product.badgeColor === "primary"
+                                ? "bg-primary text-primary-foreground"
+                                : product.badgeColor === "destructive"
+                                  ? "bg-destructive text-destructive-foreground"
+                                  : "bg-secondary text-foreground"
+                            }`}
+                          >
+                            {product.badge}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Product Info */}
+                      <div className="p-4">
+                        <span className="text-xs font-bold text-muted-foreground mb-1 block uppercase tracking-wider">
+                          {getCategoryLabel(product.category)}
+                        </span>
+                        <h3 className="text-foreground font-bold text-lg mb-3">
+                          {product.name}
+                        </h3>
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-primary font-bold text-xl">
+                            {formatPrice(product.price)}
+                          </span>
+                          {product.originalPrice && (
+                            <span className="text-muted-foreground text-sm line-through">
+                              {formatPrice(product.originalPrice)}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6">
+                        <button className="w-full py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                          Add to Cart
+                        </button>
                       </div>
                     </div>
-
-                    {/* Product Info */}
-                    <div className="p-4">
-                      <h3 className="text-foreground font-bold text-lg mb-3">
-                        {product.name}
-                      </h3>
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-primary font-bold text-xl">
-                          {product.price}
-                        </span>
-                        <span className="text-muted-foreground text-sm line-through">
-                          {product.originalPrice}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6">
-                      <button className="w-full py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
-                        Add to Cart
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

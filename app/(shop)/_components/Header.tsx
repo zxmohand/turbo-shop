@@ -32,7 +32,7 @@ export default function Header() {
               Categories
             </Link>
             <Link
-              href="/new-arrivals"
+              href="/products"
               className="text-sm text-white/80 hover:text-white transition-colors"
             >
               New Arrivals

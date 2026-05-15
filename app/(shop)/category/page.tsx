@@ -7,68 +7,23 @@ import CategoryGrid from "./_components/CategoryGrid";
 import CategoryNavigation from "./_components/CategoryNavigation";
 import SearchAndFilters from "./_components/SearchAndFilters";
 import QuickFilters from "./_components/QuickFilters";
+import { CATEGORY_LIST } from "@/lib/data/categories";
 import { Category } from "./_components/CategoryCard";
 
 const CategoriesPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const allCategories: Category[] = [
-    {
-      id: 1,
-      name: "Clothes",
-      description: "PREMIUM APPAREL",
-      image:
-        "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=800&q=80",
-      items: 234,
-      trending: true,
-    },
-    {
-      id: 2,
-      name: "Shoes",
-      description: "FOOTWEAR",
-      image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80",
-      items: 156,
-      trending: true,
-    },
-    {
-      id: 3,
-      name: "Electronics",
-      description: "TECH & GADGETS",
-      image:
-        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80",
-      items: 89,
-      trending: false,
-    },
-    {
-      id: 4,
-      name: "Accessories",
-      description: "STYLE ESSENTIALS",
-      image:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80",
-      items: 178,
-      trending: false,
-    },
-    {
-      id: 5,
-      name: "Sports",
-      description: "ATHLETIC GEAR",
-      image:
-        "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&q=80",
-      items: 142,
-      trending: true,
-    },
-    {
-      id: 6,
-      name: "Outdoor",
-      description: "ADVENTURE READY",
-      image:
-        "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800&q=80",
-      items: 98,
-      trending: false,
-    },
-  ];
+  // Map shared data to the shape CategoryCard expects
+  const allCategories: Category[] = CATEGORY_LIST.map((cat) => ({
+    id: cat.id,
+    name: cat.name,
+    slug: cat.slug,
+    description: cat.description,
+    image: cat.image,
+    items: cat.items,
+    trending: cat.trending,
+  }));
 
   // Dynamically filter categories based on search
   const filteredCategories = allCategories.filter(
