@@ -180,49 +180,48 @@ function ProductsContent() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                className="group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300"
-              >
-                <div className="relative aspect-square overflow-hidden bg-secondary/20">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  {product.badge && (
-                    <div
-                      className={`absolute top-3 left-3 px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter ${product.badgeColor === "primary" ? "bg-primary text-white" : product.badgeColor === "destructive" ? "bg-destructive text-white" : "bg-white text-black"}`}
-                    >
-                      {product.badge}
-                    </div>
-                  )}
-                </div>
-                <div className="p-4">
-                  <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
-                    {getCategoryLabel(product.category)}
-                  </span>
-                  <h3 className="text-base font-bold text-white mt-1 mb-3 line-clamp-1">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
-                      <span className="text-lg font-bold text-white">
-                        {formatPrice(product.price)}
-                      </span>
-                      {product.originalPrice && (
-                        <span className="text-xs text-muted-foreground line-through">
-                          {formatPrice(product.originalPrice)}
+              <Link key={product.id} href={`/product/${product.id}`} className="block">
+                <div className="group h-full bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 cursor-pointer">
+                  <div className="relative aspect-square overflow-hidden bg-secondary/20">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    {product.badge && (
+                      <div
+                        className={`absolute top-3 left-3 px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter ${product.badgeColor === "primary" ? "bg-primary text-white" : product.badgeColor === "destructive" ? "bg-destructive text-white" : "bg-white text-black"}`}
+                      >
+                        {product.badge}
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
+                      {getCategoryLabel(product.category)}
+                    </span>
+                    <h3 className="text-base font-bold text-white mt-1 mb-3 line-clamp-1">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-col">
+                        <span className="text-lg font-bold text-white">
+                          {formatPrice(product.price)}
                         </span>
-                      )}
+                        {product.originalPrice && (
+                          <span className="text-xs text-muted-foreground line-through">
+                            {formatPrice(product.originalPrice)}
+                          </span>
+                        )}
+                      </div>
+                      <button className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center hover:scale-110 transition-transform">
+                        <ShoppingCart className="w-4 h-4" />
+                      </button>
                     </div>
-                    <button className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center hover:scale-110 transition-transform">
-                      <ShoppingCart className="w-4 h-4" />
-                    </button>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

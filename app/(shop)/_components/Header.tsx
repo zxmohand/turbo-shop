@@ -53,11 +53,11 @@ export default function Header() {
               }}
               className="hidden lg:flex flex-1 max-w-2xl relative"
             >
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <Input
                 name="search"
                 placeholder="Search for products, brands and more..."
-                className="w-full bg-secondary/30 border-border/50 text-white placeholder:text-muted-foreground pl-12 h-11 rounded-full focus:ring-primary/20"
+                className="w-full bg-white border-white/80 text-black placeholder:text-gray-400 pl-12 h-11 rounded-full focus:ring-primary/20"
               />
             </form>
 

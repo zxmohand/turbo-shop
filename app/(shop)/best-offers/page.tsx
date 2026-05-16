@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { ChevronDown, ShoppingCart, Zap, RotateCcw } from "lucide-react";
-import { DISCOUNTED_PRODUCTS, DEPARTMENTS, formatPrice, getCategoryLabel, getDepartmentLabel } from "@/lib/data/products";
+import { DISCOUNTED_PRODUCTS, DEPARTMENTS, formatPrice, getCategoryLabel, getDepartmentLabel, getSizeSystem } from "@/lib/data/products";
 
 export default function BestOffersPage() {
   const [selectedDepts, setSelectedDepts] = useState<string[]>([]);
@@ -20,7 +21,7 @@ export default function BestOffersPage() {
     return DISCOUNTED_PRODUCTS.filter((p) => {
       const matchesDept = selectedDepts.length === 0 || selectedDepts.includes(p.department);
       const matchesPrice = p.price >= priceRange[0] && p.price <= priceRange[1];
-      const matchesSize = !selectedSize || (p.sizes?.includes(selectedSize));
+      const matchesSize = !selectedSize || (getSizeSystem(p.category).sizes.includes(selectedSize));
       return matchesDept && matchesPrice && matchesSize;
     });
   }, [selectedDepts, priceRange, selectedSize]);
@@ -119,7 +120,7 @@ export default function BestOffersPage() {
               <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-6">Quick Sizes</h3>
               <div className="flex flex-wrap gap-2">
                 {["S", "M", "L", "XL"].map((size) => (
-                  <button key={size} onClick={() => setSelectedSize(selectedSize === size ? null : size)} className={`w-10 h-10 rounded-xl text-xs font-bold transition-all border ${selectedSize === size ? "bg-primary border-primary text-white" : "bg-card border-border/50 text-white/60 hover:border-primary/50 hover:text-white"}`}>{size}</button>
+                  <button key={size} onClick={() => setSelectedSize(selectedSize === size ? null : size)} className={`w-10 h-10 rounded-xl text-xs font-bold transition-all border cursor-pointer ${selectedSize === size ? "bg-primary border-primary text-white" : "bg-card border-border/50 text-white/60 hover:border-primary/50 hover:text-white"}`}>{size}</button>
                 ))}
               </div>
             </div>
@@ -146,27 +147,29 @@ export default function BestOffersPage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProducts.map((p) => (
-                  <div key={p.id} className="group bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300">
-                    <div className="relative aspect-square overflow-hidden">
-                      <Image src={p.image} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                      <div className="absolute top-3 right-3 px-2 py-1 bg-destructive text-white text-[10px] font-black rounded-md">{p.discount}</div>
-                    </div>
-                    <div className="p-5">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{getDepartmentLabel(p.department)}</span>
-                        <div className="w-1 h-1 bg-white/20 rounded-full"></div>
-                        <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{getCategoryLabel(p.category)}</span>
+                  <Link key={p.id} href={`/product/${p.id}`} className="block">
+                    <div className="group h-full bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 cursor-pointer">
+                      <div className="relative aspect-square overflow-hidden">
+                        <Image src={p.image} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div className="absolute top-3 right-3 px-2 py-1 bg-destructive text-white text-[10px] font-black rounded-md">{p.discount}</div>
                       </div>
-                      <h3 className="text-base font-bold text-white mb-4 line-clamp-1">{p.name}</h3>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-xl font-black text-white">{formatPrice(p.price)}</span>
-                          <span className="text-xs text-white/30 line-through">{formatPrice(p.originalPrice!)}</span>
+                      <div className="p-5">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{getDepartmentLabel(p.department)}</span>
+                          <div className="w-1 h-1 bg-white/20 rounded-full"></div>
+                          <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{getCategoryLabel(p.category)}</span>
                         </div>
-                        <button className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all"><ShoppingCart className="w-4 h-4" /></button>
+                        <h3 className="text-base font-bold text-white mb-4 line-clamp-1">{p.name}</h3>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-xl font-black text-white">{formatPrice(p.price)}</span>
+                            <span className="text-xs text-white/30 line-through">{formatPrice(p.originalPrice!)}</span>
+                          </div>
+                          <button className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all"><ShoppingCart className="w-4 h-4" /></button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}

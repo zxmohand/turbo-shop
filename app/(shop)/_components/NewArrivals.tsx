@@ -29,32 +29,34 @@ export default function NewArrivals() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {trendingProducts.map((product) => (
-            <Card key={product.id} className="group overflow-hidden bg-card/50 border-border/50 hover:border-primary/50 transition-all duration-300 rounded-2xl">
-              <div className="relative aspect-square overflow-hidden bg-secondary/30">
-                <Badge className="absolute top-3 left-3 z-10 bg-primary text-white border-0 text-[10px] font-black uppercase tracking-tighter px-2 py-0.5">
-                  Trending
-                </Badge>
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              
-              <div className="p-5">
-                <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
-                  {getCategoryLabel(product.category)}
-                </span>
-                <div className="flex items-center justify-between mt-2">
-                  <h3 className="text-base font-bold text-white group-hover:text-primary transition-colors">
-                    {product.name}
-                  </h3>
-                  <span className="text-base font-black text-white">
-                    {formatPrice(product.price)}
-                  </span>
+            <Link key={product.id} href={`/product/${product.id}`} className="block">
+              <Card className="group h-full overflow-hidden bg-card/50 border-border/50 hover:border-primary/50 transition-all duration-300 rounded-2xl cursor-pointer">
+                <div className="relative aspect-square overflow-hidden bg-secondary/30">
+                  <Badge className="absolute top-3 left-3 z-10 bg-primary text-white border-0 text-[10px] font-black uppercase tracking-tighter px-2 py-0.5">
+                    Trending
+                  </Badge>
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
                 </div>
-              </div>
-            </Card>
+                
+                <div className="p-5">
+                  <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
+                    {getCategoryLabel(product.category)}
+                  </span>
+                  <div className="flex items-center justify-between mt-2">
+                    <h3 className="text-base font-bold text-white group-hover:text-primary transition-colors line-clamp-1">
+                      {product.name}
+                    </h3>
+                    <span className="text-base font-black text-white whitespace-nowrap ml-2">
+                      {formatPrice(product.price)}
+                    </span>
+                  </div>
+                </div>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>
