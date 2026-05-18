@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { SlidersHorizontal, ChevronDown, ShoppingCart, RotateCcw } from "lucide-react";
+import { ChevronDown, ShoppingCart, RotateCcw } from "lucide-react";
 import { ALL_PRODUCTS, DEPARTMENTS, formatPrice, getCategoryLabel, getDepartmentLabel } from "@/lib/data/products";
 import { Suspense, useMemo, useState } from "react";
 import Link from "next/link";
@@ -44,7 +44,7 @@ function ProductsContent() {
     }
 
     return result;
-  }, [activeDept, activeCat, sortBy]);
+  }, [activeDept, activeCat, sortBy ,searchQuery]);
 
   const setDepartment = (slug: string) => {
     const params = new URLSearchParams(searchParams.toString());

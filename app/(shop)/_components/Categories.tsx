@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { CATEGORY_LIST } from "@/lib/data/categories";
 
@@ -12,7 +13,7 @@ export default function Categories() {
             <p className="text-sm text-muted-foreground">Find exactly what you need in our curated collections</p>
           </div>
           <Link
-            href="/category"
+            href="/department"
             className="text-sm font-bold text-primary hover:text-primary/80 transition-colors"
           >
             All Departments →
@@ -26,10 +27,12 @@ export default function Categories() {
               href={`/products?department=${category.slug}`}
             >
               <Card className="group relative overflow-hidden bg-card border-border/50 hover:border-primary transition-all duration-500 cursor-pointer rounded-2xl aspect-4/5">
-                <img
+                <Image
                   src={category.image}
                   alt={category.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw"
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
                 

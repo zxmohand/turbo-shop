@@ -20,7 +20,7 @@ interface CategoryCardProps {
 export default function CategoryCard({ category, index }: CategoryCardProps) {
   return (
     <Link
-      href={`/products?category=${category.slug}`}
+      href={`/products?department=${category.slug}`}
       className="group relative overflow-hidden rounded-2xl h-[400px] block"
     >
       <div className="relative h-full overflow-hidden bg-card rounded-2xl border border-border transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 cursor-pointer">

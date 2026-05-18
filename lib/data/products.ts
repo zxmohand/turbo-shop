@@ -297,7 +297,7 @@ export const ALL_PRODUCTS: Product[] = [
   { id: 54, name: "Magnetic Tiles", price: 40.0, department: "kids", category: "kids-toys", image: "https://images.unsplash.com/photo-1618842676088-c4d48a6a7c9d?w=600&q=80" },
   { id: 55, name: "Boys Swim Trunks", price: 16.0, department: "kids", category: "kids-boys", image: "https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?w=600&q=80" },
   { id: 56, name: "Girls Party Shoes", price: 35.0, department: "kids", category: "kids-shoes", image: "https://images.unsplash.com/photo-1605034313761-73ea4a0cfbf3?w=600&q=80" },
-  { id: 57, name: "Puzzle Game", price: 12.0, department: "kids", category: "kids-toys", image: "https://images.unsplash.com/photo-1606503153255-59d8b2e4b0e4?w=600&q=80" },
+  { id: 57, name: "Puzzle Game", price: 12.0, department: "kids", category: "kids-toys", image: "https://images.unsplash.com/photo-1591951425328-48c1fe7179cd?w=600&q=80" },
   { id: 58, name: "Toddler Set", price: 20.0, department: "kids", category: "kids-boys", image: "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=600&q=80" },
   { id: 59, name: "Girls Raincoat", price: 30.0, department: "kids", category: "kids-girls", image: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=600&q=80" },
   { id: 60, name: "Story Book Set", price: 25.0, department: "kids", category: "kids-toys", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&q=80" },
@@ -347,6 +347,16 @@ export const ALL_PRODUCTS: Product[] = [
   { id: 98, name: "Bathroom Mat", price: 20.0, department: "home-living", category: "home-decor", image: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80" },
   { id: 99, name: "Storage Box Set", price: 30.0, department: "home-living", category: "home-furniture", image: "https://images.unsplash.com/photo-1591129841117-3adfd313e34f?w=600&q=80" },
   { id: 100, name: "Juicer Extractor", price: 85.0, department: "home-living", category: "home-kitchen", image: "https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=600&q=80" },
+  
+  // --- NEW ARRIVALS TECH (IDs 101-108) ---
+  { id: 101, name: "Studio Pro X", price: 249.0, originalPrice: 299.0, department: "electronics", category: "electronics-audio", image: "https://images.unsplash.com/photo-1642181329718-5f13fbc560b3?w=600&q=80", badge: "NEW", badgeColor: "primary", description: "Professional studio microphone with premium sound quality", trending: true },
+  { id: 102, name: "Retro Cam 09", price: 149.0, originalPrice: 199.0, department: "electronics", category: "electronics-phones", image: "https://images.unsplash.com/photo-1575998256834-2d841f0d7ede?w=600&q=80", badge: "NEW", badgeColor: "primary", description: "Vintage-inspired instant camera with modern features", trending: true },
+  { id: 103, name: "Elite 15", price: 1899.0, originalPrice: 2299.0, department: "electronics", category: "electronics-laptops", image: "https://images.unsplash.com/photo-1505209487757-5114235191e5?w=600&q=80", badge: "NEW", badgeColor: "primary", description: "High-performance laptop for professionals", trending: true },
+  { id: 104, name: "Chrono Fit", price: 399.0, originalPrice: 499.0, department: "electronics", category: "electronics-watches", image: "https://images.unsplash.com/photo-1644893216815-adb3b57047cc?w=600&q=80", badge: "NEW", badgeColor: "primary", description: "Advanced smartwatch with fitness tracking and cellular connectivity", trending: false },
+  { id: 105, name: "Wireless Pro Buds", price: 159.0, originalPrice: 199.0, department: "electronics", category: "electronics-audio", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80", badge: "NEW", badgeColor: "primary", description: "Premium true wireless earbuds with active noise cancellation", trending: false },
+  { id: 106, name: "Smart Ring X", price: 299.0, originalPrice: 349.0, department: "electronics", category: "electronics-watches", image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=600&q=80", badge: "NEW", badgeColor: "primary", description: "Sleek biometric smart ring for sleep and activity monitoring", trending: false },
+  { id: 107, name: "Ultra Tablet", price: 599.0, originalPrice: 699.0, department: "electronics", category: "electronics-phones", image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80", badge: "NEW", badgeColor: "primary", description: "Vibrant high-resolution tablet with premium stylus support", trending: false },
+  { id: 108, name: "Camera Lens Pro", price: 799.0, originalPrice: 999.0, department: "electronics", category: "electronics-phones", image: "https://images.unsplash.com/photo-1617005082133-548c4dd27f35?w=600&q=80", badge: "NEW", badgeColor: "primary", description: "Ultra-sharp professional zoom lens with optical stabilization", trending: false },
 ];
 
 export const DISCOUNTED_PRODUCTS: Product[] = ALL_PRODUCTS.filter(

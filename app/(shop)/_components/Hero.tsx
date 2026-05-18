@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 export default function Hero() {
@@ -31,21 +32,24 @@ export default function Hero() {
                   Shop Now
                 </Button>
               </Link>
-              <Link href="/category">
+              <Link href="/department">
                 <Button 
                   size="lg" 
                   className="cursor-pointer bg-[#3a1818] hover:bg-[#4a2020] text-white border-0 px-6 h-11 rounded-md"
                 >
-                  Browse Categories
+                  Browse Departments
                 </Button>
               </Link>
             </div>
           </div>
 
           <div className="relative">
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1552318059-ebc93d7c1060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXB0b3AlMjBjb21wdXRlciUyMGRlc2slMjBvcmFuZ2V8ZW58MXx8fHwxNzY4NzM2NzIwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
               alt="Modern workspace setup"
+              width={1080}
+              height={720}
+              priority
               className="w-full h-auto object-contain rounded-lg"
             />
           </div>

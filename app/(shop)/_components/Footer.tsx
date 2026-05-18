@@ -9,7 +9,7 @@ export default function Footer() {
       { name: "All Products", href: "/products" },
       { name: "New Arrivals", href: "/products" },
       { name: "Best Offers", href: "/best-offers" },
-      { name: "Categories", href: "/category" },
+      { name: "Departments", href: "/department" },
     ],
     support: [
       { name: "Order Status", href: "#" },

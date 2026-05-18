@@ -108,7 +108,7 @@ export default function Header() {
             </div>
 
             <Link 
-              href="/category" 
+              href="/department" 
               className="ml-auto text-xs font-bold text-white/40 hover:text-primary transition-colors uppercase tracking-widest"
             >
               All Departments
